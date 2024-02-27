@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -132,7 +133,6 @@ STATIC_ROOT = DATA_DIR / 'static'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = DATA_DIR / 'media'
-
 
 
 # Default primary key field type
