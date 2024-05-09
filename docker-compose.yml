@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   djangoapp:
     container_name: djangoapp
@@ -16,6 +14,8 @@ services:
     depends_on:
       - psql
   psql:
+    ports:
+      - 5432:5432
     container_name: psql
     image: postgres:13-alpine
     volumes:
