@@ -1,5 +1,7 @@
+from typing import Any
 from django.contrib import admin
 from blog.models import Tag, Category, Page, Post
+from django_summernote.admin import SummernoteModelAdmin
 
 
 @admin.register(Tag)
@@ -41,7 +43,8 @@ class PageAdmin(admin.ModelAdmin):
 
 
 @admin.register(Post)
-class PostAdmin(admin.ModelAdmin):
+class PostAdmin(SummernoteModelAdmin):
+    summernote_fields = ('content',)
     list_display = 'id', 'title', 'is_published', 'created_by'
     list_display_links = 'title',
     search_fields = 'id', 'slug', 'title', 'excerpt', 'content',
@@ -54,3 +57,10 @@ class PostAdmin(admin.ModelAdmin):
         "slug": ('title',),
     }
     autocomplete_fields = 'tags', 'category'
+
+    def save_model(self, request: Any, obj: Any, form: Any, change: Any):
+        if change:
+            obj.updated_by = request.user
+        else:
+            obj.created_by = request.user
+        return super().save_model(request, obj, form, change)
