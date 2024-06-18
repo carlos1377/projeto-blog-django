@@ -86,7 +86,13 @@ class Page(models.Model):
         return self.title
 
 
+class PostManager(models.Manager):
+    def get_published(self):
+        return self.filter(is_published=True).order_by('-pk')
+
+
 class Post(models.Model):
+
     title = models.CharField(max_length=65)
     slug = models.SlugField(
         unique=True, default=None,
@@ -124,6 +130,8 @@ class Post(models.Model):
         default=None
     )
     tags = models.ManyToManyField(Tag, blank=True, default='')
+
+    post_objects = PostManager()
 
     def save(self, *args, **kwargs):
         if not self.slug:
